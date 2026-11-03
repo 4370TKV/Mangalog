@@ -1,17 +1,78 @@
 <!DOCTYPE html>
-<!-- ЗАГЛУШКА для проверки бэка, Вика надо тут будет заменить своей страницей -->
-<!-- Важно сохранить th:action, name="username", name="password", кнопку с th:formaction -->
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--Объявление пространства имён для шаблонизатора Thymeleaf-->
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
+    <title>Вход и регистрация</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-size: 20px;
+            font-family: Arial;
+            background: #f5f5f5;
+        }
+        .box {
+            background: white;
+            padding: 45px 60px;
+            text-align: center;
+        }
+        table {
+            margin: 0 auto 28px;
+        }
+        td {
+            padding: 10px;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            font-size: 18px;
+            font-family: inherit;
+        }
+        button {
+            margin: 14px 6px 0;
+            padding: 10px 24px;
+            font-size: 18px;
+            font-family: inherit;
+        }
+        .message {
+            margin-bottom: 18px;
+        }
+        .error {
+            color: red;
+        }
+        .ok {
+            color: green;
+        }
+    </style>
 </head>
 <body>
-<form th:action="@{/login}" method="post">
-    <input name="username" placeholder="Логин" required>
-    <input type="password" name="password" placeholder="Пароль" required>
-    <button type="submit">Войти</button>
-    <button type="submit" th:formaction="@{/register}">Зарегистрироваться</button>
-</form>
+    <div class="box">
+        <h2>Мангалог</h2>
+
+        <div class="message">
+            <p th:if="${param.error}" class="error">Неверный логин или пароль</p>
+            <p th:if="${param.registered}" class="ok">Регистрация прошла успешно, теперь можно войти</p>
+            <p th:if="${param.taken}" class="error">Такой логин уже занят</p>
+            <p th:if="${param.invalid}" class="error">Логин и пароль не должны быть пустыми, логин — до 50 символов, пароль — до 72 байт</p>
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <table>
+                <tr>
+                    <td>Логин:</td>
+                    <td><input type="text" name="username" required></td>
+                </tr>
+                <tr>
+                    <td>Пароль:</td>
+                    <td><input type="password" name="password" required></td>
+                </tr>
+            </table>
+        <button type="submit">Войти</button>
+        <button type="submit" th:formaction="@{/register}">Зарегистрироваться</button>
+        </form>
+    </div>
 </body>
 </html>
